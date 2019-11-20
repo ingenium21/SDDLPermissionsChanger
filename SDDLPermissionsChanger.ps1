@@ -1,9 +1,11 @@
-param
-(
-    [bool]$Everyone,
-    [bool]$Users,
-    [bool]$DomainUsers,
-    [bool]$AuthenticatedUsers
-)
+#Get Services
 
-#this script will remove 
+$services = Get-Service
+
+foreach ($s in $services){
+    [String] $Sddl = sc.exe sdshow $s.Name
+
+    $Header = $Sddl -split '([A-Z]:)'[1]
+    "The Headers for $s are:"
+    Write-Host $Header
+}
