@@ -1,3 +1,6 @@
+#this creates the SID for the four users alerting.
+#creates a NTAccount object
+#translates it to an SID
 $wanted_sids = @(
     "Everyone",
     "Authenticated Users",
@@ -12,8 +15,14 @@ $RightsToCheck = 0xc0002  # ChangeConfig, ChangePermissions, ChangeOwner
 
 $services = Get-Service 
 
+#loops through every service
+#gets the SDDL
+#creates a security descriptor object
+#then loops through the SIDs
+#checks if the SecurityDescriptor's DiscretionaryACL has an "Allow" ACE, the SID, and has the rights.
+#if they exist, it removes them and prints the string version
+#if you uncomment the bottom lines it uses sc.exe sdset to change the SDDL.
 foreach ($s in $services){
-    $ServiceName = $s.Name
     $ServiceName = $s.Name
     [String] $Sddl = sc.exe sdshow $ServiceName
 
@@ -30,6 +39,7 @@ foreach ($s in $services){
         Write-Warning ("Error creating security descriptor for {0}: {1}" -f $ServiceName, $_.Exception.Message)
     }
 
+    #
     foreach ($sid in $wanted_sids){
         if ($SD.DiscretionaryAcl | where { $_.AceQualifier -eq [System.Security.AccessControl.AceQualifier]::AccessAllowed -and $_.SecurityIdentifier -eq $sid -and $_.AccessMask -band $RightsToCheck }) {
             $null = $SD.DiscretionaryAcl.RemoveAccess(
@@ -41,16 +51,17 @@ foreach ($s in $services){
             )
 
             $updatedSddl = $SD.GetSddlForm("All")
+            $objUser = $sid.Translate( [System.Security.Principal.NTAccount]) #translate the SID back to the user for easy readability
 
             [PSCustomObject] @{
                 Service = $ServiceName
-                SID = $sid
+                SID = $objUser
                 OriginalSddl = $Sddl
                 UpdatedSddl = $updatedSddl
             }
 
-            #uncomment the line below to have the script change the Sddl for you.
-            #sc.exe sdsset $ServiceName $updatedSddl
+            "Changing the SDDL..."
+            sc.exe sdset $ServiceName $updatedSddl
         }
     }
 
