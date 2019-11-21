@@ -41,6 +41,7 @@ foreach ($s in $services){
             )
 
             $updatedSddl = $SD.GetSddlForm("All")
+
             [PSCustomObject] @{
                 Service = $ServiceName
                 SID = $sid
@@ -48,6 +49,7 @@ foreach ($s in $services){
                 UpdatedSddl = $updatedSddl
             }
 
+            #uncomment the line below to have the script change the Sddl for you.
             #sc.exe sdsset $ServiceName $updatedSddl
         }
     }
