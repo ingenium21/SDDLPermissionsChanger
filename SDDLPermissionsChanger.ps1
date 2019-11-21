@@ -51,7 +51,8 @@ foreach ($s in $services){
             )
 
             $updatedSddl = $SD.GetSddlForm("All")
-            $objUser = $sid.Translate( [System.Security.Principal.NTAccount]) #translate the SID back to the user for easy readability
+            $sidAccount = New-Object -TypeName System.Security.Principal.SecurityIdentifier -ArgumentList $sid
+            $objUser = $sidAccount.Translate( [System.Security.Principal.NTAccount]) #translate the SID back to the user for easy readability
 
             [PSCustomObject] @{
                 Service = $ServiceName
