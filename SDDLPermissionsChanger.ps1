@@ -62,7 +62,7 @@ foreach ($s in $services){
             }
 
             "Changing the SDDL..."
-            sc.exe sdset $ServiceName $updatedSddl
+            sc.exe sdset $ServiceName $updatedSddl #comment this out if you don't want it to change it automatically and just want to do it manually
         }
     }
 
