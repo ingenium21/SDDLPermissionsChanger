@@ -39,15 +39,16 @@ foreach ($s in $services){
                 "ContainerInherit, ObjectInherit", # InheritanceFlags
                 "None"  #PropagationFlags
             )
-    
+
+            $updatedSddl = $SD.GetSddlForm("All")
             [PSCustomObject] @{
                 Service = $ServiceName
                 SID = $sid
                 OriginalSddl = $Sddl
-                UpdatedSddl = $SD.GetSddlForm("All")
+                UpdatedSddl = $updatedSddl
             }
 
-            #sc.exe sdsset $ServiceName "$"
+            #sc.exe sdsset $ServiceName $updatedSddl
         }
     }
 
