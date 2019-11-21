@@ -21,7 +21,6 @@ $services = Get-Service
 #then loops through the SIDs
 #checks if the SecurityDescriptor's DiscretionaryACL has an "Allow" ACE, the SID, and has the rights.
 #if they exist, it removes them and prints the string version
-#if you uncomment the bottom lines it uses sc.exe sdset to change the SDDL.
 foreach ($s in $services){
     $ServiceName = $s.Name
     [String] $Sddl = sc.exe sdshow $ServiceName
