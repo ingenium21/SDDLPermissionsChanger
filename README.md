@@ -6,7 +6,8 @@ These permissions enable a designee to change the configuration of the service t
 
 
 This all began because a client received the following High priority alert from the pen tester.
-# AlertName: SMB Insecurely Configured Service
+# AlertName: 
+SMB Insecurely Configured Service
 
 # AlertDescription:
 "At least one insecurely configured Windows service was detected on the remote host. Unprivileged users can modify the properties of these affected services, allowing an unprivileged, local attacker to execute arbitrary code or commands as SYSTEM.
