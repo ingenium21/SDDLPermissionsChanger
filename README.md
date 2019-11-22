@@ -25,9 +25,9 @@ permissions. Refer to the Microsoft documentation for more
 information."
 
 # Comments
-So I did a lot of digging into sc.exe, combined that with some sleepless nights trying to figure out how to create a security descriptor object and figure out how to removeAcess in the SD object and what that looks like. \
+So I did a lot of digging into sc.exe, combined that with some sleepless nights trying to figure out how to create a security descriptor object and figure out how to remove access in the SD object.
 
-Then it will parse according to the user you gave it, remove the two letters corresponding to the permissions.  The letter pairs are as follows:
+Then it will parse according to the users , remove the two letters corresponding to the permissions.  The letter pairs are as follows:
 - ChangeConf (DC)
 - WDac (WD)
 - WOwn (WO)
